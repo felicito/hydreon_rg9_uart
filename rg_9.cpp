@@ -104,7 +104,7 @@ int rg9_parse(char m_buffer[64]) {
     return(rg9_answerid);
 }
 
-bool rg9_weather(int *current_w, int *previous_w, bool *raining, ) {
+bool rg9_weather(int *current_w, int *previous_w, bool *raining) {
     bool tx_weather = false;
     if (*current_w < 8){
         if (*current_w == *previous_w) {
