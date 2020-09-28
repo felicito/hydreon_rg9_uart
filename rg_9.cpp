@@ -110,7 +110,7 @@ bool rg9_weather(int *current_w, int *previous_w, bool *raining) {
         if (*current_w == *previous_w) {
             tx_weather = false;
         } else {
-            if (current_w > 0) {
+            if (*current_w > 0) {
                 *raining = true;
             } else {
                 *raining = false;
