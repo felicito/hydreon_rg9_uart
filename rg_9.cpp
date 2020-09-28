@@ -23,26 +23,22 @@ const char RG9_LENS_BAD[]           = "LensBad";
 const char RG9_EMITTER_SAT[]        = "EmSat";
 
 
-bool rg9_query(BufferedSerial *puertoCOM)
-{
+bool rg9_query(BufferedSerial *puertoCOM) {
     puertoCOM->printf("%s\n\r", RG9_QUERY);
     return(true);
 }
 
-bool rg9_set_pollingMode(BufferedSerial *puertoCOM)
-{
+bool rg9_set_pollingMode(BufferedSerial *puertoCOM) {
     puertoCOM->printf("%s\n\r", RG9_POLLING_MODE);
     return(true);
 }
 
-extern bool rg9_set_continuousMode(BufferedSerial *puertoCOM)
-{
+extern bool rg9_set_continuousMode(BufferedSerial *puertoCOM) {
     puertoCOM->printf("%s\n\r", RG9_CONTINUOUS_MODE);
     return(true);
 }
 
-int read_rg9_uart(BufferedSerial *puertoCOM, char m_buffer[64])
-{
+int read_rg9_uart(BufferedSerial *puertoCOM, char m_buffer[64]) {
     int w = 0;
     while (puertoCOM -> readable()) {
         char incoming_char = puertoCOM -> getc();
@@ -53,8 +49,7 @@ int read_rg9_uart(BufferedSerial *puertoCOM, char m_buffer[64])
     return(w);
 }
 
-int rg9_parse(char m_buffer[64])
-{
+int rg9_parse(char m_buffer[64]) {
     int m_buffer_length;
     int rg9_answerid;
     char *pch;
@@ -107,4 +102,22 @@ int rg9_parse(char m_buffer[64])
         }
     }
     return(rg9_answerid);
+}
+
+bool rg9_weather(int *current_w, int *previous_w, bool *raining, ) {
+    bool tx_weather = false;
+    if (*current_w < 8){
+        if (*current_w == *previous_w) {
+            tx_weather = false;
+        } else {
+            if (current_w > 0) {
+                *raining = true;
+            } else {
+                *raining = false;
+            } 
+            *previous_w = *current_w;
+            tx_weather = true;
+        }
+    }
+    return(tx_weather);
 }
