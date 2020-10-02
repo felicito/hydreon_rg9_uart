@@ -12,32 +12,67 @@
 #include "BufferedSerial.h"
 
 // COMMANDS
+/**
+ * @brief 
+ * 
+ */
 const char RG9_QUERY[]              = "R";
 const char RG9_KILL[]               = "K";
 const char RG9_POLLING_MODE[]       = "P";
 const char RG9_CONTINUOUS_MODE[]    = "C";
 
 // INFO
+/**
+ * @brief 
+ * 
+ */
 const char RG9_RESET[]               = "Reset";
 const char RG9_LENS_BAD[]           = "LensBad";
 const char RG9_EMITTER_SAT[]        = "EmSat";
 
-
+/**
+ * @brief 
+ * 
+ * @param puertoCOM 
+ * @return true 
+ * @return false 
+ */
 bool rg9_query(BufferedSerial *puertoCOM) {
     puertoCOM->printf("%s\n\r", RG9_QUERY);
     return(true);
 }
 
+/**
+ * @brief 
+ * 
+ * @param puertoCOM 
+ * @return true 
+ * @return false 
+ */
 bool rg9_set_pollingMode(BufferedSerial *puertoCOM) {
     puertoCOM->printf("%s\n\r", RG9_POLLING_MODE);
     return(true);
 }
 
+/**
+ * @brief 
+ * 
+ * @param puertoCOM 
+ * @return true 
+ * @return false 
+ */
 extern bool rg9_set_continuousMode(BufferedSerial *puertoCOM) {
     puertoCOM->printf("%s\n\r", RG9_CONTINUOUS_MODE);
     return(true);
 }
 
+/**
+ * @brief 
+ * 
+ * @param puertoCOM 
+ * @param m_buffer 
+ * @return int 
+ */
 int read_rg9_uart(BufferedSerial *puertoCOM, char m_buffer[64]) {
     int w = 0;
     while (puertoCOM -> readable()) {
@@ -49,6 +84,12 @@ int read_rg9_uart(BufferedSerial *puertoCOM, char m_buffer[64]) {
     return(w);
 }
 
+/**
+ * @brief 
+ * 
+ * @param m_buffer 
+ * @return int 
+ */
 int rg9_parse(char m_buffer[64]) {
     int m_buffer_length;
     int rg9_answerid;
@@ -104,6 +145,15 @@ int rg9_parse(char m_buffer[64]) {
     return(rg9_answerid);
 }
 
+/**
+ * @brief 
+ * 
+ * @param current_w 
+ * @param previous_w 
+ * @param raining 
+ * @return true 
+ * @return false 
+ */
 bool rg9_weather(int *current_w, int *previous_w, bool *raining) {
     bool tx_weather = false;
     if (*current_w < 8){
